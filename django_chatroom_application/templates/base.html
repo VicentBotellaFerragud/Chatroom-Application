@@ -19,7 +19,10 @@
 
         {% if request.user.is_authenticated %}
 
-        <h1>Hi {{ request.user }}! Enjoy the chatroom &#128516;</h1>
+        {% load static %}
+        <a href="/logout/"><img src="{% static 'img/logout.png' %}" title="log out"></a>
+
+        <h1>Hi {{ request.user }}! Enjoy <span class="smartphone-dnone">the chatroom</span> &#128516;</h1>
 
         {% else %}
 

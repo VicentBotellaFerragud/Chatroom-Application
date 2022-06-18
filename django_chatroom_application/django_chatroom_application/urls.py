@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from chatroom.views import index
+from chatroom.views import redirectToChatroom, index, loginFn, logoutFn
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', redirectToChatroom),
+    path('login/', loginFn),
     path('chatroom/', index),
+    path('logout/', logoutFn),
 ]
