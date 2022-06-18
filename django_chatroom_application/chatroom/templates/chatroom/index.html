@@ -1,5 +1,12 @@
 {% extends "base.html" %} {% block content %}
 
-<h1>Hello {{ request.user }}!</h1>
+<div class="messages-container">
+    This is the messages container
+</div>
+
+<form class="message-form" action="" method="">
+    <input type="text" name="" placeholder="Type a message and click the 'SEND' button to send it">
+    <button>SEND</button>
+</form>
 
 {% endblock %}

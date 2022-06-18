@@ -13,12 +13,24 @@
 
 <body>
 
-    <h1>Base HTML</h1>
+    <nav>
 
-    <div>
+        {% if request.user.is_authenticated %}
 
-        {% block content %} 
-        
+        <h1>Hi {{ request.user }}! Enjoy the chatroom &#128516;</h1>
+
+        {% else %}
+
+        <h1>You are not logged in yet...</h1>
+
+        {% endif %}
+
+    </nav>
+
+    <div class="dynamic-content-cotainer">
+
+        {% block content %}
+
         {% endblock %}
 
     </div>
