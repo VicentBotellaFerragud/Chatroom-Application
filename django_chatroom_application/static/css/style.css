@@ -115,6 +115,57 @@ nav img {
     text-align: center;
 }
 
+/* Register style */
+
+.register-form {
+    padding: 16px;
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.register-form input {
+    width: 80%;
+    height: 1.5rem;
+    margin-bottom: 1rem;
+    padding-inline: 1rem;
+    border: none;
+    color: ghostwhite;
+    border-bottom: 1px solid ghostwhite;
+    background-color: transparent;
+    text-align: center;
+}
+
+.register-form input:focus {
+    outline: none;
+}
+
+.register-form button {
+    width: 100%;
+    height: 2rem;
+    border-radius: 10px;
+    color: #f3b05a;
+    border: 1px solid #f3b05a;
+    font-weight: bold;
+    background-color: transparent;
+    transition: .5s;
+}
+
+.register-form button:hover {
+    cursor: pointer;
+    background-color: #f3b05a;
+    color: white;
+    letter-spacing: 2.5px;
+}
+
+.redirect-to-login-span-v1 {
+    margin-top: 1rem;
+    font-size: 12px;
+    text-align: center;
+}
+
 /* Chatroom style */
 
 .messages-container {
@@ -170,7 +221,7 @@ nav img {
 
 /* Logout style */
 
-.redirect-to-login-span {
+.redirect-to-login-span-v2 {
     font-size: 12px;
     text-align: center;
 }

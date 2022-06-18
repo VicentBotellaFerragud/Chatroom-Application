@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from .models import Chat, Message
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -42,3 +43,17 @@ def loginFn(request):
 def logoutFn(request):
     logout(request)
     return render(request, 'auth/logout-view.html')
+
+def registerFn(request):
+    
+    newUsername = request.POST.get('newUsername')
+    newPassword = request.POST.get('newPassword')
+    repeatPassword = request.POST.get('repeatPassword')
+
+    if request.method == 'POST':
+        user = User.objects.create_user(newUsername, '', newPassword)
+        user.save()
+        return HttpResponseRedirect('/login/')
+
+    
+    return render(request, 'auth/register-view.html')
