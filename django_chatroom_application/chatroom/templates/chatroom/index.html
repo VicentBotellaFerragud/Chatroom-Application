@@ -2,11 +2,22 @@
 
 <div class="messages-container">
     This is the messages container
+
+    {% for message in chatMessages %}
+
+    <div><b>{{ message.author}}:</b> {{ message.text }} <span class="message-date">({{ message.created_at }}<span>)
+    </div>
+
+    {% endfor %}
 </div>
 
-<form class="message-form" action="" method="">
-    <input type="text" name="" placeholder="Type a message and click the 'SEND' button to send it">
-    <button>SEND</button>
+
+
+<form class="message-form" action="/chatroom/" method="POST">
+    {% csrf_token %}
+    <input id="messageInput" type="text" name="textMessage"
+        placeholder="Type a message and click the 'SEND' button to send it">
+    <button onclick="triggerAlert()">SEND</button>
 </form>
 
 {% endblock %}
