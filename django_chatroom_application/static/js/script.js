@@ -12,14 +12,16 @@ async function sendMessage(token, user) {
     try {
 
         messagesContainer.innerHTML += `
-        <div id="beforeResponse">
-            <b>${user}:</b> <span style="color: grey;">${messageInput.value}</span> <span class="message-date">(DATE)<span>
-        </div>
-    
+            <div class="message-container" id="beforeResponse">
+                <span class="user-span"><b>${user}:</b></span>
+                <span class="message-span"><i>${messageInput.value}</i></span>
+                <span class="first-check">&#10004;</span>
+                <span class="date-span">...<span>
+            </div>
         `;
 
         let response = await fetch('/chatroom/', { //post call, but backend sends us a response with all the information of 
-                                                    //our new message just after the call
+            //our new message just after the call
             method: 'POST',
             body: fd
         })
@@ -27,8 +29,14 @@ async function sendMessage(token, user) {
         //Now we take from the response what we need for our template view.
 
         let responseAsJson = await response.json();
-        
-        console.log(JSON.parse(responseAsJson))
+
+        let parsedJson = JSON.parse(responseAsJson);
+
+        let date = parsedJson.fields.created_at;
+
+        let [year, month, day] = date.split('-');
+
+        let result = [returnMonthInLetters(month), returnDayPlusComma(day), year].join(' ');
 
         console.log('succes');
 
@@ -37,15 +45,59 @@ async function sendMessage(token, user) {
         beforeResponse.remove();
 
         messagesContainer.innerHTML += `
-        <div>
-            <b>${user}:</b> <span>${messageInput.value}</span> <span class="message-date">(DATE)<span>
-        </div>
-    
+            <div class="message-container">
+                <span class="user-span"><b>${user}:</b></span>
+                <span class="message-span"><i>${messageInput.value}</i></span>
+                <span class="first-check">&#10004;</span>
+                <span class="second-check">&#10004;</span>
+                <span class="date-span">${result}<span>
+            </div>
         `;
 
-      
+
     } catch (e) {
         console.log(e);
     }
 
 }
+
+function returnMonthInLetters(month) {
+    let monthToNum = Number(month);
+    let monthsArr = [['January', 1], ['February', 2], ['June', 6]];
+    for (let i = 0; i < monthsArr.length; i++) {
+        const monthInLetters = monthsArr[i][0];
+        const monthValue = monthsArr[i][1];
+        if (monthValue === monthToNum) {
+            month = monthInLetters;
+        }
+    }
+    return month;
+}
+
+function returnDayPlusComma(day) {
+    return day + ',';
+}
+
+function searchForMessages() {
+    // Declare variables
+    var input, filter, container, span, i, txtValue;
+    input = document.getElementById('searchBar');
+    filter = input.value.toUpperCase();
+    container = document.getElementById('messagesContainer');
+    span = container.querySelectorAll('.message-span');
+  
+    // Loop through all list items, and hide those who don't match the search query
+    for (i = 0; i < span.length; i++) {
+      //a = span[i].getElementsByTagName("a")[0];
+      txtValue = span[i].textContent || span[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        let element = span[i];
+        let parentDiv = element.parentNode;
+        parentDiv.classList.remove('d-none');
+      } else {
+        let element = span[i];
+        let parentDiv = element.parentNode;
+        parentDiv.classList.add('d-none');
+      }
+    }
+  }

@@ -1,14 +1,21 @@
 {% extends "base.html" %} {% block content %}
 
 <div class="messages-container" id="messagesContainer">
-    This is the messages container
+
+    <div><input type="search" class="search-bar" placeholder="Search for messages.." id="searchBar" onkeyup="myFunction()"></div>
 
     {% for message in chatMessages %}
 
-    <div><b>{{ request.user }}:</b> {{ message.text }} <span class="message-date">({{ message.created_at }}<span>)
+    <div class="message-container">
+        <span class="user-span"><b>{{ request.user }}:</b></span>
+        <span class="message-span"><i>{{ message.text }}</i></span>
+        <span class="first-check">&#10004;</span>
+        <span class="second-check">&#10004;</span>
+        <span class="date-span">{{ message.created_at }}<span>
     </div>
 
     {% endfor %}
+
 </div>
 
 <!--"return false" means that, unless you do it manually, the site will not reload. This is useful to avoid the backend server 
