@@ -1,23 +1,27 @@
 {% extends "base.html" %} {% block content %}
 
-<div class="messages-container">
+<div class="messages-container" id="messagesContainer">
     This is the messages container
 
     {% for message in chatMessages %}
 
-    <div><b>{{ message.author}}:</b> {{ message.text }} <span class="message-date">({{ message.created_at }}<span>)
+    <div><b>{{ request.user }}:</b> {{ message.text }} <span class="message-date">({{ message.created_at }}<span>)
     </div>
 
     {% endfor %}
 </div>
 
+<!--"return false" means that, unless you do it manually, the site will not reload. This is useful to avoid the backend server 
+    having to load the whole html document every time we send a message to it. JS will do the post call, then the python index 
+    function will create the message in the database and return it as a json. That's where js comes in again, as js will take this 
+    json response and display it in the html template.
+With js we avoid continuous reloads of the web page every time we make a post call.-->
 
-
-<form class="message-form" action="/chatroom/" method="POST">
+<form class="message-form" onsubmit="sendMessage('{{ csrf_token }}', '{{ request.user }}'); return false" method="POST">
     {% csrf_token %}
     <input id="messageInput" type="text" name="textMessage"
         placeholder="Type a message and click the 'SEND' button to send it">
-    <button onclick="triggerAlert()">SEND</button>
+    <button>SEND</button>
 </form>
 
 {% endblock %}

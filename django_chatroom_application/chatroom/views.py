@@ -1,10 +1,11 @@
 from asyncio.windows_events import NULL
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from .models import Chat, Message
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core import serializers
 
 # Create your views here.
 
@@ -17,7 +18,9 @@ def index(request):
     if request.method == 'POST' and request.POST['textMessage'] != '':
         print('method was post', request.POST['textMessage'])
         chat = Chat.objects.get(id = 1)        
-        Message.objects.create(text = request.POST['textMessage'], chat = chat, author = request.user, receiver = request.user)
+        newMessage = Message.objects.create(text = request.POST['textMessage'], chat = chat, author = request.user, receiver = request.user)
+        newMessageSerialized = serializers.serialize('json', [ newMessage, ])
+        return JsonResponse(newMessageSerialized[1:-1], safe = False)
 
     chatMessages = Message.objects.filter(chat__id = 1)
     return render(request, 'chatroom/index.html', {'chatMessages': chatMessages})
