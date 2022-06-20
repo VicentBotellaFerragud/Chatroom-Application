@@ -16,7 +16,6 @@ def redirectToChatroom(request):
 @login_required(login_url = '/login/')
 def index(request):  
     if request.method == 'POST' and request.POST['textMessage'] != '':
-        print('method was post', request.POST['textMessage'])
         chat = Chat.objects.get(id = 1)        
         newMessage = Message.objects.create(text = request.POST['textMessage'], chat = chat, author = request.user, receiver = request.user)
         newMessageSerialized = serializers.serialize('json', [ newMessage, ])
@@ -54,9 +53,25 @@ def registerFn(request):
     repeatPassword = request.POST.get('repeatPassword')
 
     if request.method == 'POST':
-        user = User.objects.create_user(newUsername, '', newPassword)
-        user.save()
-        return HttpResponseRedirect('/login/')
+        
+        if newUsername != '' and newPassword != '' and repeatPassword !='':
+
+            if newPassword == repeatPassword:
+
+                try:
+                    user= User.objects.get(username = newUsername)
+                    return render(request, 'auth/register-view.html', {'usernameAlreadyExists': True})
+                except User.DoesNotExist:
+                    user = User.objects.create_user(newUsername, '', newPassword)
+                    user.save()
+                    return HttpResponseRedirect('/login/')
+
+            else:
+
+                return render(request, 'auth/register-view.html', {'passwordsDifferent': True})
+
+        else:
+            return render(request, 'auth/register-view.html', {'anyFieldEmpty': True})
 
     
     return render(request, 'auth/register-view.html')

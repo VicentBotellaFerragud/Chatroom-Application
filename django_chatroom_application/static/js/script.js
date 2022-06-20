@@ -3,15 +3,19 @@ let messageInput = document.getElementById('messageInput');
 
 async function sendMessage(token, user) {
 
-    let fd = new FormData();
-    //let token = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    if (messageInput.value !== '') {
 
-    fd.append('textMessage', messageInput.value);
-    fd.append('csrfmiddlewaretoken', token);
 
-    try {
 
-        messagesContainer.innerHTML += `
+        let fd = new FormData();
+        //let token = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        fd.append('textMessage', messageInput.value);
+        fd.append('csrfmiddlewaretoken', token);
+
+        try {
+
+            messagesContainer.innerHTML += `
             <div class="message-container" id="beforeResponse">
                 <span class="user-span"><b>${user}:</b></span>
                 <span class="message-span"><i>${messageInput.value}</i></span>
@@ -20,31 +24,29 @@ async function sendMessage(token, user) {
             </div>
         `;
 
-        let response = await fetch('/chatroom/', { //post call, but backend sends us a response with all the information of 
-            //our new message just after the call
-            method: 'POST',
-            body: fd
-        })
+            let response = await fetch('/chatroom/', { //post call, but backend sends us a response with all the information of 
+                //our new message just after the call
+                method: 'POST',
+                body: fd
+            })
 
-        //Now we take from the response what we need for our template view.
+            //Now we take from the response what we need for our template view.
 
-        let responseAsJson = await response.json();
+            let responseAsJson = await response.json();
 
-        let parsedJson = JSON.parse(responseAsJson);
+            let parsedJson = JSON.parse(responseAsJson);
 
-        let date = parsedJson.fields.created_at;
+            let date = parsedJson.fields.created_at;
 
-        let [year, month, day] = date.split('-');
+            let [year, month, day] = date.split('-');
 
-        let result = [returnMonthInLetters(month), returnDayPlusComma(day), year].join(' ');
+            let result = [returnMonthInLetters(month), returnDayPlusComma(day), year].join(' ');
 
-        console.log('succes');
+            let beforeResponse = document.getElementById('beforeResponse');
 
-        let beforeResponse = document.getElementById('beforeResponse');
+            beforeResponse.remove();
 
-        beforeResponse.remove();
-
-        messagesContainer.innerHTML += `
+            messagesContainer.innerHTML += `
             <div class="message-container">
                 <span class="user-span"><b>${user}:</b></span>
                 <span class="message-span"><i>${messageInput.value}</i></span>
@@ -54,9 +56,14 @@ async function sendMessage(token, user) {
             </div>
         `;
 
+            messageInput.value = '';
 
-    } catch (e) {
-        console.log(e);
+
+        } catch (e) {
+            console.log(e);
+        }
+    } else {
+        alert('It looks like you forgot to type your message...')
     }
 
 }
@@ -85,19 +92,19 @@ function searchForMessages() {
     filter = input.value.toUpperCase();
     container = document.getElementById('messagesContainer');
     span = container.querySelectorAll('.message-span');
-  
+
     // Loop through all list items, and hide those who don't match the search query
     for (i = 0; i < span.length; i++) {
-      //a = span[i].getElementsByTagName("a")[0];
-      txtValue = span[i].textContent || span[i].innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        let element = span[i];
-        let parentDiv = element.parentNode;
-        parentDiv.classList.remove('d-none');
-      } else {
-        let element = span[i];
-        let parentDiv = element.parentNode;
-        parentDiv.classList.add('d-none');
-      }
+        //a = span[i].getElementsByTagName("a")[0];
+        txtValue = span[i].textContent || span[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            let element = span[i];
+            let parentDiv = element.parentNode;
+            parentDiv.classList.remove('d-none');
+        } else {
+            let element = span[i];
+            let parentDiv = element.parentNode;
+            parentDiv.classList.add('d-none');
+        }
     }
-  }
+}
