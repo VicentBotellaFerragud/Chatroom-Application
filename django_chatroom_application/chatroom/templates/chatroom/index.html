@@ -5,11 +5,17 @@
     {% for message in chatMessages %}
 
     <div class="message-container">
+
         <span class="user-span"><b>{{ request.user }}:</b></span>
+
         <span class="message-span"><i>{{ message.text }}</i></span>
+
         <span class="first-check">&#10004;</span>
+
         <span class="second-check">&#10004;</span>
+
         <span class="date-span">{{ message.created_at }}<span>
+
     </div>
 
     {% endfor %}
@@ -17,16 +23,19 @@
 </div>
 
 <!--"return false" means that, unless you do it manually, the site will not reload. This is useful to avoid the backend server 
-    having to load the whole html document every time we send a message to it. JS will do the post call, then the python index 
-    function will create the message in the database and return it as a json. That's where js comes in again, as js will take this 
-    json response and display it in the html template.
-With js we avoid continuous reloads of the web page every time we make a post call.-->
+having to load the whole html document every time we send a message to it. JS will do the post call, then the python index 
+function will create the message in the database and return it as a json. That's where JS comes in again, as JS (the JS sendmessage 
+function) will take this json response and display it in the html template.
+With JS we avoid continuous reloads of the web page every time we make a post call.-->
 
 <form class="message-form" onsubmit="sendMessage('{{ csrf_token }}', '{{ request.user }}'); return false" method="POST">
+
     {% csrf_token %}
     <input id="messageInput" type="text" name="textMessage"
         placeholder="Type a message and click the 'SEND' button to send it">
+
     <button>SEND</button>
+
 </form>
 
 {% endblock %}

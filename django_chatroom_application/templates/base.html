@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +11,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/script.js' %}" defer></script>
-    
+
 </head>
 
 <body>
@@ -22,7 +23,7 @@
         {% load static %}
         <a href="/logout/"><img src="{% static 'img/logout.png' %}" title="log out"></a>
 
-        <h1>Hi {{ request.user }}! Enjoy the chatroom &#128516;</h1>
+        <h1>Hi {{ request.user }}! <span class="smartphone-dnone">Enjoy the chatroom</span> &#128516;</h1>
 
         {% else %}
 
@@ -35,7 +36,10 @@
     {% if request.get_full_path == "/chatroom/" %}
 
     <div class="search-bar-container">
-        <input type="text" class="search-bar" placeholder="Search for messages.." id="searchBar" onkeyup="searchForMessages()">
+        
+        <input type="text" class="search-bar" placeholder="Search for messages.." id="searchBar"
+            onkeyup="searchForMessages()">
+
     </div>
 
     {% endif %}
@@ -47,8 +51,6 @@
         {% endblock %}
 
     </div>
-
-    
 
 </body>
 

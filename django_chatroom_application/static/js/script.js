@@ -1,3 +1,4 @@
+//Global variables:
 let messagesContainer = document.getElementById('messagesContainer');
 let messageInput = document.getElementById('messageInput');
 
@@ -5,10 +6,8 @@ async function sendMessage(token, user) {
 
     if (messageInput.value !== '') {
 
-
-
         let fd = new FormData();
-        //let token = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        /* let token = document.querySelector('[name=csrfmiddlewaretoken]').value; */ //That's another way to get the value of the token.
 
         fd.append('textMessage', messageInput.value);
         fd.append('csrfmiddlewaretoken', token);
@@ -16,12 +15,14 @@ async function sendMessage(token, user) {
         try {
 
             messagesContainer.innerHTML += `
+
             <div class="message-container" id="beforeResponse">
                 <span class="user-span"><b>${user}:</b></span>
                 <span class="message-span"><i>${messageInput.value}</i></span>
                 <span class="first-check">&#10004;</span>
                 <span class="date-span">...<span>
             </div>
+
         `;
 
             let response = await fetch('/chatroom/', { //post call, but backend sends us a response with all the information of 
@@ -29,8 +30,6 @@ async function sendMessage(token, user) {
                 method: 'POST',
                 body: fd
             })
-
-            //Now we take from the response what we need for our template view.
 
             let responseAsJson = await response.json();
 
@@ -47,6 +46,7 @@ async function sendMessage(token, user) {
             beforeResponse.remove();
 
             messagesContainer.innerHTML += `
+            
             <div class="message-container">
                 <span class="user-span"><b>${user}:</b></span>
                 <span class="message-span"><i>${messageInput.value}</i></span>
@@ -54,23 +54,32 @@ async function sendMessage(token, user) {
                 <span class="second-check">&#10004;</span>
                 <span class="date-span">${result}<span>
             </div>
+
         `;
 
             messageInput.value = '';
 
-
         } catch (e) {
+            
             console.log(e);
+
         }
+
     } else {
-        alert('It looks like you forgot to type your message...')
+
+        alert('It looks like you forgot to type your message...');
+
     }
 
 }
 
+
 function returnMonthInLetters(month) {
+    
     let monthToNum = Number(month);
+    
     let monthsArr = [['January', 1], ['February', 2], ['June', 6]];
+    
     for (let i = 0; i < monthsArr.length; i++) {
         const monthInLetters = monthsArr[i][0];
         const monthValue = monthsArr[i][1];
@@ -78,16 +87,22 @@ function returnMonthInLetters(month) {
             month = monthInLetters;
         }
     }
+
     return month;
 }
 
+
 function returnDayPlusComma(day) {
+
     return day + ',';
+
 }
+
 
 function searchForMessages() {
     // Declare variables
     var input, filter, container, span, i, txtValue;
+    
     input = document.getElementById('searchBar');
     filter = input.value.toUpperCase();
     container = document.getElementById('messagesContainer');
@@ -107,4 +122,5 @@ function searchForMessages() {
             parentDiv.classList.add('d-none');
         }
     }
+
 }

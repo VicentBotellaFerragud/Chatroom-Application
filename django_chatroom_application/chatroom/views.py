@@ -1,20 +1,29 @@
 from asyncio.windows_events import NULL
-from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
-from .models import Chat, Message
 from django.contrib.auth.decorators import login_required
+from .models import Chat, Message
+from django.http import HttpResponseRedirect, JsonResponse
+from django.core import serializers
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.core import serializers
 
 # Create your views here.
 
+"""
+Redirects the user to the chatroom view as soons as the app loads.
+"""
 def redirectToChatroom(request):
-    response = redirect('/chatroom/')
+    
+    response = redirect('/chatroom/') # I could have used 'HttpResponseRedirect' a well. There's no difference.
+    
     return response
 
+"""
+Renders the chatroom view. It also creates and stores in the database the messages that the user types and returns them in json format.
+"""
 @login_required(login_url = '/login/')
 def index(request):  
+    
     if request.method == 'POST' and request.POST['textMessage'] != '':
         chat = Chat.objects.get(id = 1)        
         newMessage = Message.objects.create(text = request.POST['textMessage'], chat = chat, author = request.user, receiver = request.user)
@@ -22,10 +31,16 @@ def index(request):
         return JsonResponse(newMessageSerialized[1:-1], safe = False)
 
     chatMessages = Message.objects.filter(chat__id = 1)
+    
     return render(request, 'chatroom/index.html', {'chatMessages': chatMessages})
 
+"""
+Renders the login view and logs in the user if he/she fulfills the if conditions.
+"""
 def loginFn(request):
+    
     redirect = request.GET.get('next')
+    
     if request.method == 'POST':
         user = authenticate(username = request.POST['username'], password = request.POST['password'])
 
@@ -34,6 +49,7 @@ def loginFn(request):
 
             if redirect:
                 return HttpResponseRedirect(request.POST.get('next'))
+            
             else:
                 return HttpResponseRedirect('/chatroom/')
         
@@ -42,10 +58,9 @@ def loginFn(request):
 
     return render(request, 'auth/login-view.html', {'redirect': redirect})
 
-def logoutFn(request):
-    logout(request)
-    return render(request, 'auth/logout-view.html')
-
+"""
+Renders the register view and registers the user if he/she fulfills the if conditions.
+"""
 def registerFn(request):
     
     newUsername = request.POST.get('newUsername')
@@ -54,17 +69,18 @@ def registerFn(request):
 
     if request.method == 'POST':
         
-        if newUsername != '' and newPassword != '' and repeatPassword !='':
+        if newUsername != '' and newPassword != '' and repeatPassword !='': 
 
-            if newPassword == repeatPassword:
+            if newPassword == repeatPassword: 
 
-                try:
+                try: 
                     user= User.objects.get(username = newUsername)
-                    return render(request, 'auth/register-view.html', {'usernameAlreadyExists': True})
-                except User.DoesNotExist:
+                    return render(request, 'auth/register-view.html', {'usernameAlreadyExists': True})  
+
+                except User.DoesNotExist: 
                     user = User.objects.create_user(newUsername, '', newPassword)
                     user.save()
-                    return HttpResponseRedirect('/login/')
+                    return HttpResponseRedirect('/login/') 
 
             else:
 
@@ -75,3 +91,12 @@ def registerFn(request):
 
     
     return render(request, 'auth/register-view.html')
+
+"""
+Renders the logout view and logs out the user.
+"""
+def logoutFn(request):
+    
+    logout(request)
+
+    return render(request, 'auth/logout-view.html')

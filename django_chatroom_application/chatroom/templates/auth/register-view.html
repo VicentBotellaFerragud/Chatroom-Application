@@ -1,34 +1,40 @@
 {% extends "base.html" %} {% block content %}
 
 <div class="wrapper">
-    
+
     <form class="register-form" action="/register/" method="POST">
+        
         {% csrf_token %}
         <input type="text" name="newUsername" placeholder="Enter a username">
+        
         <input type="password" name="newPassword" placeholder="Enter a password">
+        
         <input type="password" name="repeatPassword" placeholder="Repeat the password">
 
         {% if anyFieldEmpty %}
 
-        <span class="wrong-password-span">All fields must be filled!</span>
+        <span class="warning-span">All fields must be filled!</span>
 
         {% endif %}
 
         {% if passwordsDifferent %}
 
-        <span class="wrong-password-span">Password must be the same in both fields!</span>
+        <span class="warning-span">Password must be the same in both fields!</span>
 
         {% endif %}
 
         {% if usernameAlreadyExists %}
 
-        <span class="wrong-password-span">This username already exists!</span>
+        <span class="warning-span">This username already exists!</span>
 
         {% endif %}
 
         <button>CREATE USER</button>
+
     </form>
-    <span class="redirect-to-login-span-v1">Already have a username? Click <a href="/login/">here</a> to go back to the login view.</span>
+
+    <span class="redirect-to-login-span-v1">Already have a username? Click <a href="/login/">here</a> to go back to the
+        login view.</span>
 
 </div>
 

@@ -1,13 +1,4 @@
-.d-none {
-    display: none;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    color: ghostwhite;
-}
+/* General / 'base.html' style */
 
 ::-webkit-scrollbar {
     width: 7.5px;
@@ -22,10 +13,16 @@
     border-radius: 10px;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: ghostwhite;
+}
+
 body {
     height: 100vh;
-    background: linear-gradient(180.2deg, rgb(30, 33, 48) 6.8%, rgb(74, 98, 110) 131%);
-   
+    background: linear-gradient(180.2deg, rgb(30, 33, 48) 6.8%, rgb(74, 98, 110) 131%);   
 }
 
 nav {
@@ -34,13 +31,6 @@ nav {
     justify-content: center;
     background-color: #f3b05a;
     position: relative;
-}
-
-nav h1 {
-    margin-inline: 16px;
-    display: flex;
-    align-items: center;
-    text-align: center;
 }
 
 nav a {
@@ -56,12 +46,21 @@ nav img {
     width: 25px;
 }
 
+nav h1 {
+    margin-inline: 16px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+nav h1 span {
+    margin-left: .25rem;
+}
+
 .dynamic-content-cotainer {
    height: calc(100vh - 135px);
    padding: 16px;
 }
-
-/* Login style */
 
 .wrapper {
     height: 100%;
@@ -70,6 +69,15 @@ nav img {
     align-items: center;
     justify-content: center;
 }
+
+.warning-span {
+    color: red;
+    margin-bottom: 1rem;
+    font-size: 12px;
+    text-align: center;
+}
+
+/* Login style */
 
 .login-form {
     padding: 16px;
@@ -94,13 +102,6 @@ nav img {
 
 .login-form input:focus {
     outline: none;
-}
-
-.wrong-password-span {
-    color: red;
-    margin-bottom: 1rem;
-    font-size: 12px;
-    text-align: center;
 }
 
 .login-form button {
@@ -218,14 +219,6 @@ nav img {
     border-radius: 10px;
 }
 
-.user-span {
-
-}
-
-.message-span {
-    
-}
-
 .first-check {
     color: lightgreen;
 }
@@ -236,7 +229,7 @@ nav img {
 }
 
 .date-span {
-    
+    font-size: 8px;
 }
 
 .message-form {
@@ -301,7 +294,7 @@ nav img {
     }
 
     .message-container {
-        font-size: 12px;
+        font-size: 11px;
     }
 
     .message-form input {
