@@ -19,22 +19,6 @@ def redirectToChatroom(request):
     return response
 
 """
-Renders the chatroom view. It also creates and stores in the database the messages that the user types and returns them in json format.
-"""
-@login_required(login_url = '/login/')
-def index(request):  
-    
-    if request.method == 'POST' and request.POST['textMessage'] != '':
-        chat = Chat.objects.get(id = 1)        
-        newMessage = Message.objects.create(text = request.POST['textMessage'], chat = chat, author = request.user, receiver = request.user)
-        newMessageSerialized = serializers.serialize('json', [ newMessage, ])
-        return JsonResponse(newMessageSerialized[1:-1], safe = False)
-
-    chatMessages = Message.objects.filter(chat__id = 1)
-    
-    return render(request, 'chatroom/index.html', {'chatMessages': chatMessages})
-
-"""
 Renders the login view and logs in the user if he/she fulfills the if conditions.
 """
 def loginFn(request):
@@ -78,7 +62,7 @@ def registerFn(request):
                     return render(request, 'auth/register-view.html', {'usernameAlreadyExists': True})  
 
                 except User.DoesNotExist: 
-                    user = User.objects.create_user(newUsername, '', newPassword)
+                    user = User.objects.create_user(username = newUsername, password = newPassword)
                     user.save()
                     return HttpResponseRedirect('/login/') 
 
@@ -91,6 +75,22 @@ def registerFn(request):
 
     
     return render(request, 'auth/register-view.html')
+
+"""
+Renders the chatroom view. It also creates and stores in the database the messages that the user types and returns them in json format.
+"""
+@login_required(login_url = '/login/')
+def index(request):  
+    
+    if request.method == 'POST' and request.POST['textMessage'] != '':
+        chat = Chat.objects.get(id = 1)        
+        newMessage = Message.objects.create(text = request.POST['textMessage'], chat = chat, author = request.user, receiver = request.user)
+        newMessageSerialized = serializers.serialize('json', [ newMessage, ])
+        return JsonResponse(newMessageSerialized[1:-1], safe = False)
+
+    chatMessages = Message.objects.filter(chat__id = 1)
+    
+    return render(request, 'chatroom/index.html', {'chatMessages': chatMessages})
 
 """
 Renders the logout view and logs out the user.

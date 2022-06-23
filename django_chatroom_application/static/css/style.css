@@ -77,6 +77,10 @@ nav h1 span {
     text-align: center;
 }
 
+.d-none {
+    display: none;
+}
+
 /* Login style */
 
 .login-form {
