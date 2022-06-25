@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Chat, Message
@@ -64,7 +63,7 @@ def registerFn(request):
                 except User.DoesNotExist: 
                     user = User.objects.create_user(username = newUsername, password = newPassword)
                     user.save()
-                    return HttpResponseRedirect('/login/') 
+                    return render(request, 'auth/login-view.html', {'registerSuccessful': True})
 
             else:
 

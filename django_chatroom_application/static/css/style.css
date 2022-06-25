@@ -132,6 +132,13 @@ nav h1 span {
     text-align: center;
 }
 
+.register-successful-span {
+    color: lightgreen;
+    margin-bottom: 1rem;
+    font-size: 12px;
+    text-align: center;
+}
+
 .redirect-to-chatroom-span {
     font-size: 12px;
     text-align: center;
