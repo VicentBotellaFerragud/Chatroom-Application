@@ -36,7 +36,7 @@ async function sendMessage(token, user) {
             let response = await fetch('/chatroom/', {
                 method: 'POST',
                 body: fd
-            })
+            });
 
             //This is the response from the backend server.
             let responseAsJson = await response.json();
@@ -75,7 +75,7 @@ async function sendMessage(token, user) {
 
     } else {
 
-        alert('Please write something before clicking the "SEND" button. It is not possible to post an empty message.');
+        alert('Please type something before clicking the "SEND" button. It is not possible to post an empty message.');
 
     }
 
