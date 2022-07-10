@@ -57,7 +57,7 @@ nav h1 span {
     margin-left: .25rem;
 }
 
-.dynamic-content-cotainer {
+.dynamic-content-container {
    height: calc(100vh - 135px);
    padding: 16px;
 }
